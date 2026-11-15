@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: mediqueue-ai
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python -m backend.seed
+    startCommand: gunicorn wsgi:app --workers 1 --threads 4 --timeout 120 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: TZ
+        value: Asia/Kolkata
+      - key: MEDIQUEUE_SECRET_KEY
+        generateValue: true
